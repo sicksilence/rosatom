@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор картриджей</title>
+    <link rel="stylesheet" href ="proekt.css">
+    <link rel="stylesheet" href ="proekt.py">
+</head>
+<body>
+    <header>
+        <h1>НИИ Графит</h1>
+    </header>
+    <h2>Выберите количество картриджей:</h1>
+    <form action="/submit" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Картридж</th>
+                    <th>Количество</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cartridge in cartridges %}
+                <tr>
+                    <td>{{ cartridge }}</td>
+                    <td><input type="number" name="{{ cartridge }}" min="0"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" value="Сохранить">
+    </form>
+</body>
+</html>
