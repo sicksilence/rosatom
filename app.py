@@ -8,7 +8,7 @@ cartridges = ["Картридж 1", "Картридж 2", "Картридж 3"]
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',cartridge=cartridges)
 
 @app.route('/submit', methods=['POST'])
 def submit():
