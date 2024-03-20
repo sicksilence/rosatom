@@ -11,8 +11,11 @@ def index():
     # Прочитать данные из файла Excel
     try:
         df = pd.read_excel("список_картриджей.xlsx")
+        # Преобразовать названия столбцов к нижнему регистру для согласованности с шаблоном
+        df.columns = df.columns.str.lower()
         # Преобразовать данные в формат, который можно передать в HTML-шаблон
         data = df.to_dict(orient='records')
+        print(data)  # Вывод данных для отладки
     except Exception as e:
         print("Ошибка чтения файла Excel:", e)
         data = None

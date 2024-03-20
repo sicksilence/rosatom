@@ -34,12 +34,12 @@
                     {% for row in data %}
                     <tr>
                         <td>{{ row['cartridge'] }}</td>
-                        <td>{{ row['quantity'] }}</td>
                         <td>{{ row['organization'] }}</td>
+                        <td>{{ row['quantity'] }}</td>
                     </tr>
                     {% endfor %}
                 {% else %}
-                    <tr><td colspan="3">Данные не найдены</td></tr>
+                    <tr><td colspan="1">Данные не найдены</td></tr>
                 {% endif %}
             </tbody>
         </table>
