@@ -1,32 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор картриджей</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/proekt.css') }}">
-    <link rel="stylesheet" href ="app.py">
+    <style>    #top-left-image {
+        position: absolute;
+        top: 5px;
+        left: 80px;
+        width: 100px;
+        height: 100px;
+    } 
+    </style>
 </head>
 <body>
     <header>
         <h1>НИИ Графит</h1>
+        <img id="top-left-image" src="Logo_B-B-WG_160x160.png">
     </header>
-    <h2>Выберите количество картриджей:</h1>
+    <h2>Выберите количество картриджей:</h2>
     <form action="/submit" method="post">
         <table>
             <thead>
                 <tr>
                     <th>Картридж</th>
+                    <th>Организация</th>
                     <th>Количество</th>
                 </tr>
             </thead>
             <tbody>
-                {% for cartridge in cartridges %}
-                <tr>
-                    <td>{{ cartridge }}</td>
-                    <td><input type="number" name="{{ cartridge }}" min="0"></td>
-                </tr>
-                {% endfor %}
+                {% if data %}
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row['cartridge'] }}</td>
+                        <td>{{ row['organization'] }}</td>
+                        <td>{{ row['quantity'] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="1">Данные не найдены</td></tr>
+                {% endif %}
             </tbody>
         </table>
         <input type="submit" value="Сохранить">
