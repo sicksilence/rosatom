@@ -12,12 +12,20 @@
         width: 100px;
         height: 100px;
     } 
+    input[type="number"] {
+            width: 50px;
+        }
+
+        input[readonly] {
+            border: none;
+            background-color: transparent;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>НИИ Графит</h1>
-        <img id="top-left-image" src="Logo_B-B-WG_160x160.png">
+        <img id="top-left-image" src="{{ url_for('static', filename='Logo_B-B-WG_160x160.png') }}">
     </header>
     <h2>Выберите количество картриджей:</h2>
     <form action="/submit" method="post">
@@ -27,6 +35,8 @@
                     <th>Картридж</th>
                     <th>Организация</th>
                     <th>Количество</th>
+                    <th>Сколько хочет взять</th>
+                    <th>Сколько осталось</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,14 +46,47 @@
                         <td>{{ row['cartridge'] }}</td>
                         <td>{{ row['organization'] }}</td>
                         <td>{{ row['quantity'] }}</td>
+                        <td><input type="number" name="{{ loop.index }}"></td>
+                        <td><input type="text" name="left_{{ loop.index }}" readonly></td>
                     </tr>
                     {% endfor %}
                 {% else %}
-                    <tr><td colspan="1">Данные не найдены</td></tr>
+                    <tr><td colspan="5">Данные не найдены</td></tr>
                 {% endif %}
             </tbody>
         </table>
         <input type="submit" value="Сохранить">
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInputs = document.querySelectorAll('input[type="number"]');
+            quantityInputs.forEach(function(input) {
+                input.addEventListener('input', function() {
+                    // Заменяем все символы минуса на пустую строку
+                    this.value = this.value.replace(/-/g, "");
+    
+                    const row = this.closest('tr'); // Находим ближайшую строку таблицы, где находится данный инпут
+                    const quantityAvailable = parseInt(row.querySelector('td:nth-child(3)').textContent); // Количество доступных товаров в данной строке
+                    let quantityRequested = parseInt(this.value); // Количество, введенное пользователем
+                    const quantityLeft = quantityAvailable - quantityRequested; // Оставшееся количество после ввода
+                    
+                    // Проверка на отрицательное значение
+                    if (quantityRequested < 0) {
+                        quantityRequested = 0;
+                        this.value = 0;
+                    }
+    
+                    // Ограничение ввода значения не больше оставшегося количества
+                    if (quantityRequested > quantityAvailable) {
+                        this.value = quantityAvailable;
+                        quantityRequested = quantityAvailable;
+                    }
+                    
+                    row.querySelector('input[name^="left_"]').value = quantityLeft >= 0 ? quantityLeft : 0; // Записываем оставшееся количество в соответствующий инпут
+                });
+            });
+        });
+    </script>
+               
 </body>
 </html>
