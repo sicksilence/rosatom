@@ -46,8 +46,8 @@
                         <td>{{ row['cartridge'] }}</td>
                         <td>{{ row['organization'] }}</td>
                         <td>{{ row['quantity'] }}</td>
-                        <td><input type="number" name="{{ loop.index }}"></td>
-                        <td><input type="text" name="left_{{ loop.index }}" readonly></td>
+                        <td><input type="number" name="quantity_taken_{{ loop.index - 1 }}" min="0"></td>
+                        <td><input type="text" name="left_{{ loop.index - 1 }}" readonly></td>
                     </tr>
                     {% endfor %}
                 {% else %}
@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <input type="submit" value="Сохранить">
-    </form>
+    </form>    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const quantityInputs = document.querySelectorAll('input[type="number"]');
@@ -86,7 +86,6 @@
                 });
             });
         });
-    </script>
-               
+    </script>    
 </body>
 </html>

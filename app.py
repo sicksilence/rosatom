@@ -3,17 +3,14 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Список доступных картриджей
-cartridges = ["Картридж 1", "Картридж 2", "Картридж 3"]
-
 @app.route('/')
 def index():
-    # Прочитать данные из файла Excel
     try:
+        # Чтение данных из файла Excel
         df = pd.read_excel("список_картриджей.xlsx")
-        # Преобразовать названия столбцов к нижнему регистру для согласованности с шаблоном
+        # Преобразование названий столбцов к нижнему регистру для согласованности с шаблоном
         df.columns = df.columns.str.lower()
-        # Преобразовать данные в формат, который можно передать в HTML-шаблон
+        # Преобразование данных в формат, который можно передать в HTML-шаблон
         data = df.to_dict(orient='records')
         print(data)  # Вывод данных для отладки
     except Exception as e:
@@ -23,21 +20,26 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = []
-    total_cost = 0
-    
-    for cartridge in cartridges:
-        quantity = int(request.form.get(cartridge, 0))
-        if quantity > 0:
-            cost = quantity * 10  # Здесь можно заменить на реальные данные
-            total_cost += cost
-            data.append({'Картридж': cartridge, 'Количество': quantity, 'Стоимость': cost})
-        else :
-            return "Введите значение"
-    df = pd.DataFrame(data)
-    df.to_excel("список_картриджей.xlsx", index=False)
-    
-    return f'Список картриджей сохранен в файл "список_картриджей.xlsx". Общая стоимость: {total_cost}'
+    try:
+        # Чтение существующего файла Excel
+        df = pd.read_excel("список_картриджей.xlsx")
+        
+        # Обновление данных в столбце quantity
+        for index, row in df.iterrows():
+            cartridge = row['cartridge']
+            quantity_taken_str = request.form.get(f"quantity_taken_{index}", '')  # Получаем строку из формы
+            quantity_taken = int(quantity_taken_str) if quantity_taken_str else 0  # Пытаемся преобразовать в число
+            print(f"Картридж: {cartridge}, Количество взято: {quantity_taken}")  # Отладочный вывод
+            df.at[index, 'quantity'] = max(row['quantity'] - quantity_taken, 0)
+
+        # Сохранение обновленного DataFrame в файл
+        df.to_excel("список_картриджей.xlsx", index=False)
+        
+        # Редирект на главную страницу
+        return redirect(url_for('index'))
+
+    except Exception as e:
+        return f"Произошла ошибка при обновлении файла Excel: {e}"
 
 if __name__ == '__main__':
     app.run(debug=True)
