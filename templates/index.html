@@ -29,7 +29,21 @@
         <img id="top-left-image" src="{{ url_for('static',filename='styles/logo.png') }}">
     </header>
     <h2>Выберите количество картриджей:</h2>
-    
+    <form action="/search" method="post">
+        <label for="search_query">Поиск:</label>
+        <input type="text" id="search_query" name="search_query">
+        <select name="search_type" id="search_type">
+            <option value="cartridge">Поиск по картриджу</option>
+            <option value="quantity">Поиск по количеству</option>
+        </select>
+        <input type="checkbox" id="org_niigrafit" name="organization_filter" value="АО &quot;НИИГРАФИТ&quot;">
+        <label for="org_niigrafit">АО "НИИГРАФИТ"</label>
+        <input type="checkbox" id="org_giredmet" name="organization_filter" value="АО Гиредмет">
+        <label for="org_giredmet">АО Гиредмет</label>
+        <input type="checkbox" id="org_unknown" name="organization_filter" value="неизвестно">
+        <label for="org_unknown">Неизвестно</label>
+        <input type="submit" value="Найти">
+    </form>
     <form action="/submit" method="post">
         <table>
             <thead>

@@ -15,6 +15,23 @@ reports_folder = "отчеты"
 if not os.path.exists(reports_folder):
     os.makedirs(reports_folder)
 
+# Загрузка данных из Excel-файла
+def load_data():
+    try:
+        df = pd.read_excel("список_картриджей.xlsx")
+        return df
+    except Exception as e:
+        print("Ошибка чтения файла Excel:", e)
+        return None
+
+# Поиск по картриджу
+def search_by_cartridge(df, query):
+    return df[df['Картридж'].str.contains(query, case=False)]
+
+# Поиск по количеству
+def search_by_quantity(df, query):
+    return df[df['Количество'].astype(str).str.contains(query)]
+
 @app.route('/')
 def index():
     try:
@@ -87,6 +104,35 @@ def create_report():
 
     except Exception as e:
         return f"Произошла ошибка при создании отчета: {e}"
+
+def search_by_quantity_exact(df, quantity):
+    return df[df['Количество'] == int(quantity)]
+
+@app.route('/search', methods=['POST'])
+def search():
+    try:
+        search_query = request.form['search_query']
+        search_type = request.form['search_type']
+        
+        df = pd.read_excel("список_картриджей.xlsx")
+        df.columns = ['Картридж', 'Организация', 'Количество', 'Было']  # Обновляем названия столбцов
+        
+        if search_type == 'cartridge':
+            result_df = search_by_cartridge(df, search_query)
+        elif search_type == 'quantity':
+            result_df = search_by_quantity_exact(df, search_query)  # Используем точный поиск по количеству
+        else:
+            return "Неверный тип поиска."
+        
+        # Фильтрация по организациям
+        organization_filter = request.form.getlist('organization_filter')
+        if organization_filter:
+            result_df = result_df[result_df['Организация'].isin(organization_filter)]
+        
+        data = result_df.to_dict(orient='records')
+        return render_template('index.html', data=data)
+    except Exception as e:
+        return f"Произошла ошибка при поиске: {e}"
 
 if __name__ == '__main__':
     app.run(debug=True)
