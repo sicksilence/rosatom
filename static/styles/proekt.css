@@ -101,11 +101,11 @@ input[type="submit"]:hover {
 .search-form {
     max-width: 600px;
     margin-left: 50px;
-    margin-bottom: 20px; /* Добавляем отступ снизу, чтобы формы не налазили друг на друга */
+    margin-bottom: 20px; 
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
-    display: inline-block; /* Размещаем форму в строку */
+    display: inline-block; 
 }
 
 .form-row {
@@ -155,7 +155,7 @@ button.btn-search:hover {
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
-    float: right; /* Помещаем форму слева */
+    float: right; /* Помещаем форму справа */
 }
 
 .report-form button.btn-create-report {
