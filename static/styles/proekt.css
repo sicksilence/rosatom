@@ -1,11 +1,14 @@
+/* Общие стили */
+
 header {
     background-color: #3498db;
     color: #fff;
     padding: 10px 0;
     text-align: center;
 }
+
 body {
-    font-family: 'Roboto', sans-serif; /* Заменяем шрифт на более современный */
+    font-family: 'Roboto', sans-serif;
     background-color: #f8f8f8;
     margin: 0;
     padding: 0;
@@ -14,15 +17,15 @@ body {
 h1 {
     text-align: center;
     margin-top: 20px;
-    color: #ffffff; /* Добавляем цвет заголовка */
-    animation: fadeIn 1s ease; /* Добавляем анимацию для появления */
+    color: #ffffff;
+    animation: fadeIn 1s ease;
 }
 
 h2 {
     text-align: center;
     margin-top: 20px;
-    color: #333; /* Добавляем цвет заголовка */
-    animation: fadeIn 1s ease; /* Добавляем анимацию для появления */
+    color: #333;
+    animation: fadeIn 1s ease;
 }
 
 @keyframes fadeIn {
@@ -36,49 +39,46 @@ h2 {
     }
 }
 
+/* Стили таблицы */
+
 table {
-    width: 50%;
+    width: 90%;
     margin: 20px auto;
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    animation: scaleIn 1s ease; /* Добавляем анимацию для масштабирования */
+    animation: scaleIn 1s ease;
 }
 
-@keyframes scaleIn {
-    from {
-        transform: scale(0.8);
-    }
-    to {
-        transform: scale(1);
-    }
-}
-
-table th, table td {
+table th,
+table td {
     padding: 10px;
     text-align: left;
+    border: 1px solid #ddd;
 }
 
 table th {
-    background-color: #6c5ce7; /* Изменяем цвет шапки таблицы */
+    background-color: #6c5ce7;
     color: #fff;
 }
 
 table tbody tr:nth-child(even) {
     background-color: #f2f2f2;
-    transition: background-color 0.3s ease; /* Добавляем плавное изменение цвета при наведении */
+    transition: background-color 0.3s ease;
 }
 
 table tbody tr:hover {
     background-color: #ddd;
 }
 
+/* Стили для форм */
+
 input[type="number"] {
     width: 60px;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    transition: all 0.3s ease; /* Добавляем плавное изменение стилей для числового ввода */
+    transition: all 0.3s ease;
 }
 
 input[type="submit"] {
@@ -91,25 +91,88 @@ input[type="submit"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Добавляем плавное изменение цвета при наведении */
+    transition: background-color 0.3s ease;
 }
 
 input[type="submit"]:hover {
     background-color: #4834d4;
 }
 
-input[type="submit"] {
-    display: block;
-    width: 150px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.search-form {
+    max-width: 600px;
+    margin-left: 50px;
+    margin-bottom: 20px; /* Добавляем отступ снизу, чтобы формы не налазили друг на друга */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    display: inline-block; /* Размещаем форму в строку */
 }
 
-input[type="submit"]:hover {
-    background-color: #2980b9;
+.form-row {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
 }
+
+label {
+    display: block;
+    margin-right: 10px;
+    font-weight: bold;
+    width: 150px;
+}
+
+input[type="text"],
+select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+button.btn-search {
+    width: auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-search:hover {
+    background-color: #0056b3;
+}
+
+
+.report-form {
+    max-width: 400px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    float: right; /* Помещаем форму слева */
+}
+
+.report-form button.btn-create-report {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.report-form button.btn-create-report:hover {
+    background-color: #0056b3;
+}
+
+
+

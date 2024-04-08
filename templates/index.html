@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор картриджей</title>
+    <title>Учет инвентаря на складе</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/proekt.css') }}">
     <style>    
     #top-left-image {
@@ -28,31 +28,54 @@
         <h1>НИИ Графит</h1>
         <img id="top-left-image" src="{{ url_for('static',filename='styles/logo.png') }}">
     </header>
-    <h2>Выберите количество картриджей:</h2>
-    <form action="/search" method="post">
-        <label for="search_query">Поиск:</label>
-        <input type="text" id="search_query" name="search_query">
-        <select name="search_type" id="search_type">
-            <option value="cartridge">Поиск по картриджу</option>
-            <option value="quantity">Поиск по количеству</option>
-        </select>
-        <input type="checkbox" id="org_niigrafit" name="organization_filter" value="АО &quot;НИИГРАФИТ&quot;">
-        <label for="org_niigrafit">АО "НИИГРАФИТ"</label>
-        <input type="checkbox" id="org_giredmet" name="organization_filter" value="АО Гиредмет">
-        <label for="org_giredmet">АО Гиредмет</label>
-        <input type="checkbox" id="org_unknown" name="organization_filter" value="неизвестно">
-        <label for="org_unknown">Неизвестно</label>
-        <input type="submit" value="Найти">
-    </form>
+    <h2></h2>
+       <div class="forms-container">
+        <form class="search-form" action="/search" method="post">
+            <div class="form-row">
+                <label for="search_query">Поиск:</label>
+                <input type="text" id="search_query" name="search_query">
+            </div>
+            <div class="form-row">
+                <label for="search_type">Тип поиска:</label>
+                <select name="search_type" id="search_type">
+                    <option value="cartridge">Поиск по наименованию</option>
+                    <option value="quantity">Поиск по количеству</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <input type="checkbox" id="org_niigrafit" name="organization_filter" value="АО &quot;НИИГРАФИТ&quot;">
+                <label for="org_niigrafit">АО "НИИГРАФИТ"</label>
+                <input type="checkbox" id="org_giredmet" name="organization_filter" value="АО Гиредмет">
+                <label for="org_giredmet">АО Гиредмет</label>
+                <input type="checkbox" id="org_unknown" name="organization_filter" value="неизвестно">
+                <label for="org_unknown">Неизвестно</label>
+            </div>
+            <button type="submit" class="btn-search">Искать</button>
+        </form>
+        
+
+        <form class="report-form" action="/create_report" method="post">
+            <div class="form-group">
+                <label for="start_date">Начальная дата:</label>
+                <input type="date" id="start_date" name="start_date">
+            </div>
+            <div class="form-group">
+                <label for="end_date">Конечная дата:</label>
+                <input type="date" id="end_date" name="end_date">
+            </div>
+            <button type="submit" class="btn-create-report">Создать отчет</button>
+        </form>
+    </div>
+</div>
     <form action="/submit" method="post">
         <table>
             <thead>
                 <tr>
-                    <th>Картридж</th>
+                    <th>Наименование</th>
                     <th>Организация</th>
                     <th>Было</th> <!-- Добавлен новый столбец "Было" -->
                     <th>Количество</th>
-                    <th>Количество взятых картриджей</th>
+                    <th>Взято</th>
                     <th>Сколько останется</th>
                 </tr>
             </thead>
@@ -75,13 +98,7 @@
         </table>
         <input type="submit" value="Сохранить">
     </form>
-    <form action="/create_report" method="post">
-        <label for="start_date">Начальная дата:</label>
-        <input type="date" id="start_date" name="start_date"><br><br>
-        <label for="end_date">Конечная дата:</label>
-        <input type="date" id="end_date" name="end_date"><br><br>
-        <input type="submit" value="Создать отчет">
-    </form>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const quantityInputs = document.querySelectorAll('input[type="number"]');
